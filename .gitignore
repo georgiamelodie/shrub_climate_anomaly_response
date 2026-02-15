@@ -12,6 +12,10 @@
 # User-specific files
 .Ruserdata
 
-# outputs frm code (before publication)
+# outputs (reproducible)
 figures/
 output/
+
+# Temporary files
+*.tmp
+*.log
