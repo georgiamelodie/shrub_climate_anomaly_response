@@ -299,7 +299,7 @@ plot_cdd_highlight_year(
 ###############GDD - Growing Degree Days (days above 5C) plot for highlight year
 
 #Load ERA5 t2m temperature data
-t2m_file <- here("data", "iera5_t2m_daily_-133.777--132.895E_68.55593-69.359N_firstyear-lastyear_n_su.dat")
+t2m_file <- here("data", "ERA5_t2m_daily.dat")
 readLines(t2m_file, n = 25)
 
 ERA5T2M <- read.table(t2m_file, header = FALSE, skip = 22)
@@ -626,7 +626,7 @@ for (yr in highlight_years) {
 #precipitation - using ERA as CRU lacks data for the region
 #read in and convert ERA precip data
 
-precip_file <- here("data", "iera5_prcp_daily_-133.777--132.895E_68.55593-69.359N_firstyear-lastyear_n.dat")
+precip_file <- here("data", "ERA5_prcp_daily.dat")
 readLines(precip_file, n = 25)
 ERA5P <- read.table(precip_file, header = FALSE, skip = 23)
 
