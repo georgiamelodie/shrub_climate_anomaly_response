@@ -6,7 +6,7 @@ library(here)
 source(here("R/utils_packages.R"))
 load_project_packages()
 
-source(here("R/0_paths_setup.R")) 
+source(here("R/00_paths_setup.R")) 
 
 #Define project directories
 data_dir    <- here("data")
