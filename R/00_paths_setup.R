@@ -1,6 +1,6 @@
 ## wood anatomical response to climate in Alnus and Salix
 ##Author: Georgia Hole
-##scripts/0_paths_setup.R
+##scripts/00_paths_setup.R
 
 source("R/utils_packages.R")
 load_project_packages()
