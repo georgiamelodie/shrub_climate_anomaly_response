@@ -1,7 +1,17 @@
-.Rproj.user
+# History files
 .Rhistory
+.Rapp.history
+
+# RStudio files
+.Rproj.user/
+
+# Session Data files
 .RData
+.RDataTmp
+
+# User-specific files
 .Ruserdata
-*.Rproj
+
+# outputs frm code (before publication)
 figures/
 output/
