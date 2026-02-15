@@ -883,8 +883,8 @@ ggplot(all_preds_current, aes(x = orig_x, y = fit)) +
     color = "Ring Type",
     title = "Alnus LWFR - 95% CI"
   ) +
-  scale_color_manual(values = c("LWFR" = "#386CB0")) +
-  scale_fill_manual(values  = c("LWFR" = "#386CB0")) +
+  scale_color_manual(values = c("LWFR" = "#E98960")) +
+  scale_fill_manual(values  = c("LWFR" = "#E98960")) +
   theme_classic(base_size = 12) +
   theme(
     axis.text.x = element_text(
