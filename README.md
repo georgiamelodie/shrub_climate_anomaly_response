@@ -8,7 +8,7 @@ Code and data for analysis of taxon-specific thermal limitation of cell wall lig
 
 # Repository Structure
 <pre>
-shrub_lignification/
+shrub_climate_anomaly_response/
 │   
 └── R/   # All R scripts (analysis workflow)  
 │   00_paths_setup.R  
@@ -52,7 +52,7 @@ shrub_lignification/
 
 Double-click:   
 ~~~
-shrub_lignification.Rproj
+shrub_climate_anomaly_response.Rproj
 ~~~
 
 2.Install and load required packages  
