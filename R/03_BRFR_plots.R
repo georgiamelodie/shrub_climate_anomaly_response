@@ -516,10 +516,10 @@ ggsave(file.path(figures_dir, paste0("Alnus_LWFR_freq_minsampdepth", samp_dep, "
        al_lwfr, width = 8, height = 1.5, dpi = 300, bg = "white")
 
 ggsave(file.path(figures_dir, paste0("Salix_LWBR_freq_minsampdepth", samp_dep, ".png")),
-       p_lwbr, width = 8, height = 1.5, dpi = 300, bg = "white")
+       sa_lwbr, width = 8, height = 1.5, dpi = 300, bg = "white")
 
 ggsave(file.path(figures_dir, paste0("Salix_LWFR_freq_minsampdepth", samp_dep, ".png")),
-       p_lwfr, width = 8, height = 1.5, dpi = 300, bg = "white")
+       sa_lwfr, width = 8, height = 1.5, dpi = 300, bg = "white")
 
 
 
