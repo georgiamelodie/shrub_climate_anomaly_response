@@ -42,7 +42,7 @@ shrub_lignification/
 ├── figures/    #output figures (created when scripts run)  
 ├── output/      #output tables (created when scripts run)  
 │  
-├── shrub_lignification.Rproj  
+├── shrub_climate_anomaly_response.Rproj  
 └── README.md  
 </pre>
 
