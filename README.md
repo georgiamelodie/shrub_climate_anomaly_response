@@ -2,7 +2,7 @@
 Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Thermal thresholds constrain lignification and frost injury in Low Arctic shrubs of northwestern Canada. [In prep].
 
 The code in this repository reproduces the results of Hole et al. (2026) using dataset [DOI]. 
-This is a subset of data that is available on on the UK Polar Data Centre (UK PDC) as part of the dataset “Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd. Sample IDs can be cross-referenced using files 'ISR_salix_subset_samples_pdc_key.csv','ISR_alnus_subset_samples_pdc_key.csv'.
+This is a subset of data that is available on the UK Polar Data Centre (UK PDC) as part of the dataset “Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd. Sample IDs can be cross-referenced using files 'ISR_salix_subset_samples_pdc_key.csv','ISR_alnus_subset_samples_pdc_key.csv'.
 
 Code and data for analysis of taxon-specific thermal limitation of cell wall lignification in Low Arctic shrubs.
 
