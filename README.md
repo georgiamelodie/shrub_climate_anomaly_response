@@ -2,7 +2,7 @@
 Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Species-specific thermal limitation of cell wall lignification in Low Arctic shrubs. [In prep].
 
 The code in this repository reproduces the results of Hole et al. (2026) using dataset [DOI]. 
-This is a subset of data that is available on on the UK Polar Data Centre (UK PDC) as part of the dataset “Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd. 
+This is a subset of data that is available on on the UK Polar Data Centre (UK PDC) as part of the dataset “Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd. Sample IDs can be cross-referenced using files 'ISR_salix_subset_samples_pdc_key.csv','ISR_alnus_subset_samples_pdc_key.csv'.
 
 Code and data for analysis of taxon-specific thermal limitation of cell wall lignification in Low Arctic shrubs.
 
@@ -33,9 +33,11 @@ shrub_climate_anomaly_response/
 │   ERA5_t2m_daily.dat  
 │   ERA5_tmin_daily.dat  
 │   ISR_alnus_RWI.csv  
-│   ISR_alnus_subset020_samples.csv  
+│   ISR_alnus_subset_samples.csv
+│    ISR_salix_subset_sampleS_pdc_key.csv
 │   ISR_salix_RWI.csv  
-│   ISR_salix_subset020_samples.csv  
+│   ISR_salix_subset_samples.csv
+│   ISR_salix_subset_samples_pdc_key.csv
 │   salixBRFRdata.csv  
 │   saspl10SV.csv  
 │  
