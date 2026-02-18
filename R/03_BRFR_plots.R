@@ -220,7 +220,7 @@ brfr_plot <- ggplot() +
 brfr_plot
 
 #save plot
-ggsave(file.path(figures_dir, "LWBRLWFR_plot.jpg"), brfr_plot, width = 8, height = 10, dpi = 300)
+ggsave(file.path(figures_dir, "LWBRLWFR_plot.jpg"), brfr_plot, width = 9, height = 10, dpi = 300)
 
 
 
