@@ -39,7 +39,7 @@ dfalnus <- dfalnus %>% mutate(year = as.integer(year), across(-year, as.characte
 
 
 
-#function to process alnus and salix BRs and BRs
+#function to process alnus and salix BRs and FRs
 process_species <- function(df, species_name) {
   
   long <- df %>%
@@ -53,7 +53,7 @@ process_species <- function(df, species_name) {
     mutate(
       anomaly_raw = str_trim(anomaly_raw),
       
-      # 1. classify blue/frost (full OR partial)
+      # 1. classify blue/frost (full or partial)
       anomaly = case_when(
         str_detect(anomaly_raw, regex("BLW", ignore_case = TRUE)) ~ "blue",
         str_detect(anomaly_raw, regex("FLW", ignore_case = TRUE)) ~ "frost",
@@ -306,7 +306,6 @@ make_anom_freq <- function(df, start_year, samp_dep = 5) {
 
 
 # Build frequency tables (Alnus + Salix)
-
 
 samp_dep <- 5
 
