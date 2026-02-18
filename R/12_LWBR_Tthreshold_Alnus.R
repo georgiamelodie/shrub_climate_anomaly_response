@@ -242,21 +242,20 @@ subset(AIC_tbl, deltaAIC <= 2)
 set.seed(123)
 
 boot_Tstar <- function(dat){
-  yrs <- unique(dat$Year)
-  boot_yrs <- sample(yrs, replace = TRUE)
-  
-  boot_ids <- tibble(Year = boot_yrs, draw = seq_along(boot_yrs))
-  
-  boot_dat <- boot_ids %>%
-    left_join(dat, by = "Year")
-  
-  
-  AIC_boot <- bind_rows(
+  yrs <- sort(unique(dat$Year))
+  boot_yrs <- sample(yrs, length(yrs), replace = TRUE)
+
+  boot_dat <- dplyr::bind_rows(lapply(boot_yrs, function(y){
+    dat %>% dplyr::filter(Year == y)
+  }))
+
+  AIC_boot <- dplyr::bind_rows(
     lapply(unique(boot_dat$T), fit_one_T, dat = boot_dat)
   )
-  
+
   AIC_boot$T[which.min(AIC_boot$AIC)]
 }
+
 
 
 
@@ -282,36 +281,57 @@ quantile(T_boot, probs = c(0.1, 0.9), na.rm = TRUE)
 
 
 ########constrained bootstrap to dAIC
-
 boot_support_interval <- function(dat, Ts){
   yrs <- unique(dat$Year)
-  boot_yrs <- sample(yrs, replace = TRUE)
+  boot_yrs <- sample(yrs, length(yrs), replace = TRUE)
   
-  boot_dat <- dat %>%
-    semi_join(tibble(Year = boot_yrs), by = "Year")
-  
-  # Fit models across T
-  aic_tbl <- bind_rows(lapply(Ts, function(Tval){
-    d <- boot_dat %>% filter(T == Tval)
-    m <- glm(cbind(k, n-k) ~ E_aug, family = binomial, data = d)
-    tibble(T = Tval, AIC = AIC(m))
+  boot_dat <- dplyr::bind_rows(lapply(boot_yrs, function(y){
+    dat %>% dplyr::filter(Year == y)
   }))
   
-  aic_tbl <- aic_tbl %>% mutate(deltaAIC = AIC - min(AIC, na.rm=TRUE))
+  aic_tbl <- dplyr::bind_rows(lapply(Ts, function(Tval){
+    d <- boot_dat %>% dplyr::filter(T == Tval)
+    if (nrow(d) == 0) return(tibble::tibble(T = Tval, AIC = NA_real_))
+    m <- glm(cbind(k, n - k) ~ E_aug, family = binomial, data = d)
+    tibble::tibble(T = Tval, AIC = AIC(m))
+  })) %>%
+    dplyr::filter(!is.na(AIC))
   
-  supported <- aic_tbl %>% filter(deltaAIC <= 2)
+  if (nrow(aic_tbl) == 0) return(c(T_best = NA, T_lo = NA, T_hi = NA))
+  
+  aic_tbl <- aic_tbl %>%
+    dplyr::mutate(deltaAIC = AIC - min(AIC, na.rm = TRUE))
+  
+  supported <- aic_tbl %>% dplyr::filter(deltaAIC <= 2)
+  if (nrow(supported) == 0) supported <- aic_tbl
   
   c(
     T_best = aic_tbl$T[which.min(aic_tbl$AIC)],
-    T_lo   = min(supported$T),
-    T_hi   = max(supported$T)
+    T_lo   = min(supported$T, na.rm = TRUE),
+    T_hi   = max(supported$T, na.rm = TRUE)
   )
 }
 
+
+
 set.seed(123)
 B <- 1000
-#Ts_used <- sort(unique(yr_thresh$T))  # or your constrained Ts
-Ts_used <- seq(0.5, 4, by = 0.5)  #constrained Ts derived from dAIC
+
+#calculate constrained Ts derived from dAIC
+AIC_tbl <- AIC_tbl %>%
+  mutate(deltaAIC = AIC - min(AIC, na.rm = TRUE))
+
+supported_T <- AIC_tbl %>% filter(deltaAIC <= 2)
+
+T_sup_low  <- min(supported_T$T, na.rm = TRUE)
+T_sup_high <- max(supported_T$T, na.rm = TRUE)
+
+bracket <- 1     # degrees C 
+step    <- 0.5   # to match Ts step
+
+Ts_used <- seq(T_sup_low - bracket, T_sup_high + bracket, by = step)
+
+
 boot_mat <- replicate(B, boot_support_interval(yr_thresh, Ts_used))
 boot_df <- as.data.frame(t(boot_mat))
 
@@ -353,8 +373,7 @@ write.csv(
   row.names = FALSE
 )
 
-
-
+T_range_full
 
 library(dplyr)
 library(ggplot2)
