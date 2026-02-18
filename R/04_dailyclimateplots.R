@@ -729,8 +729,6 @@ precip
 
 
 
-library(tidyverse)
-
 #Long format
 precip_long <- precip %>%
   pivot_longer(

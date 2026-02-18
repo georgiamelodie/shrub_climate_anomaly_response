@@ -269,7 +269,7 @@ sc_summary <- sc_summary %>%
   tibble::rownames_to_column(var = "Variable")
 
 # Save to CSV
-write.csv(sc_summary, file.path(output_dir, "Salix_static_dcc_summary.csv"), row.names = FALSE)
+write.csv(sc_summary, file.path(output_dir, "Salix_static_tempdcc_summary.csv"), row.names = FALSE)
 
 
 #################plot alnus (ac)  and salix (sc)  dcc output
@@ -677,7 +677,7 @@ scp_summary <- scp_summary %>%
   tibble::rownames_to_column(var = "Variable")
 
 # Save to CSV
-write.csv(sc_summary, file.path(output_dir, "Salix_static_tempdcc_summary.csv"), row.names = FALSE)
+write.csv(scp_summary, file.path(output_dir, "Salix_static_precipdcc_summary.csv"), row.names = FALSE)
 
 
 #################plot alnus (acp)  and salix (scp)  dcc output
