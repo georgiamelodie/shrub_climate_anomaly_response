@@ -6,7 +6,7 @@ Code and data for analysis of taxon-specific thermal limitation of cell wall lig
 This repository contains the analysis code and derived datasets required to reproduce the results of Hole et al. (2026). Primary datasets are archived separately (see Data Availability section). 
 
 
-# Repository Structure
+## Repository Structure
 <pre>
 shrub_climate_anomaly_response/
 │   
@@ -62,7 +62,7 @@ shrub_climate_anomaly_response/
 └── README.md  
 </pre>
 
-# How to Run the Project
+## How to Run the Project
 
 1.Open the project
 
@@ -96,9 +96,36 @@ source(here::here("R/00_paths_setup.R"))
 13_LWBR_Tthreshold_Salix.R - calculate Temp threshold for Salix LWBR  
 ~~~  
 
-# Data availability  
-The ```data/``` directory contains analysis-ready datasets.
-Anatomical anomaly and RWI datasets archived at Zenodo (review link; DOI pending publication)
-sample inventory data archived at UK Polar Data Centre https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.
 
-The UK PDC dataset uses unique machine-readable sample identifiers. For analysis, we use shorter alias identifiers (analysis_id) as R packages and plotting workflows are sensitive to long IDs. A crosswalk between analysis_id and the UK PDC pdc_sample_id is provided in ISR_salix_subset_samples_pdc_key.csv and ISR_alnus_subset_samples_pdc_key.csv (archived with the analysis dataset DOI). All derived tables can be joined back to the UK PDC dataset using this crosswalk.
+## Data availability
+The ```data/``` directory contains analysis-ready datasets. 
+A complete reproducibility archive (code + all data required to run the analysis) is available via a private Zenodo deposit: [DOI]
+
+
+## Data sources
+### Anatomical anomaly datasets
+Anatomical anomaly datasets (BRFR) contain newly generated manually identified blue ring and frost ring occurrences.
+
+### Ring width datasets
+Ring Width Index (RWI) data include both previously archived material and newly processed measurements.
+
+### Derived
+RWI site-level chronologies derived from sample RWI data.
+
+### Sample identifiers  
+To ensure compatibility with R modelling workflows, shortened analysis identifiers are used in this repository. Mapping between analysis_ID and pdc_sample_ID is provided in:
+~~~
+data/id_crosswalk/
+~~~
+These crosswalk tables allow full traceability to UK PDC archived identifiers.
+Sample inventory data archived at UK Polar Data Centre https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.
+
+
+### Climate Data  
+These files are provided in data/climate_raw/ to ensure reproducibility of model outputs and temperature threshold analyses.
+Original data sources:
+ERA5: Copernicus Climate Data Store
+CRU: Climatic Research Unit, University of East Anglia
+
+## License  
+MIT
