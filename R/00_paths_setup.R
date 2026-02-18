@@ -1,11 +1,12 @@
-## wood anatomical response to climate in Alnus and Salix
+##############################################################################
+# Alnus and Salix shrub anatomical response to climate
 ##Author: Georgia Hole
 ##scripts/00_paths_setup.R
 
 source("R/utils_packages.R")
 load_project_packages()
 
-# Root is the project directory (assuming you open the .Rproj here)
+# Root project directory
 root <- here::here()
 
 # Define subfolders
