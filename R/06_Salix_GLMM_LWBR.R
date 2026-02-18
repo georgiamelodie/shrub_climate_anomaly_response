@@ -56,7 +56,7 @@ df_long <- data.frame(
   stringsAsFactors = FALSE
 )
 
-for (sample in colnames(rings)[-1]) {
+for (sample in setdiff(colnames(rings), "year")) {
   for (i in 1:nrow(rings)) {
     
     year <- rings$year[i]
