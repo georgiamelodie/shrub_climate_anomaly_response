@@ -535,7 +535,7 @@ tidy_best
 #save model coeffs 
 write.csv(
   tidy_best,
-  file.path(output_dir, "Salix_LWFR_model_current_coeffs.csv"),
+  file.path(output_dir, "Salix_LWFR_current_model_coeffs.csv.csv"),
   row.names = FALSE
 )
 
@@ -759,6 +759,8 @@ legacy_effect_table <- tidy_bestlegacy %>%
     conf.high.OR = exp(conf.high)
   ) %>%
   
+  
+  
   # relabel predictors
   dplyr::mutate(
     Predictor = dplyr::recode(term,
@@ -769,7 +771,7 @@ legacy_effect_table <- tidy_bestlegacy %>%
                               "tmin_CDD_month9_s" = "September CDD (current year)",
                               "precip_month9_s"   = "September precip (current year)",
                               "tmin_CDD_month8_prev_s" = "August CDD (previous year)",
-                              "tmin_CDD_month9_prev_s" = "September CDD (previous year)"
+                              "precip_month9_prev_s" = "September precip (previous year)"
     ),
     `Odds ratio (95% CI)` =
       sprintf("%.2f (%.2f-%.2f)", odds_ratio, conf.low.OR, conf.high.OR)
