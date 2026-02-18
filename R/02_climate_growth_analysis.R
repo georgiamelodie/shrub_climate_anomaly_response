@@ -1628,6 +1628,7 @@ sa_moving_age_plot <- plot_moving_jun_jul_by_age(
   add_trend = TRUE
 )
 
+#save plot
 print(sa_moving_age_plot)
 ggsave(file.path(figures_dir, "Salix_agecohortsMCC.png"),
        sa_moving_age_plot, width = 10, height = 6, dpi = 300)
