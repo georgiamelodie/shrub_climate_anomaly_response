@@ -14,7 +14,7 @@ figures_dir <- here("figures")
 output_dir  <- here("output")
 
 if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
-
+if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
 ###
 # Read *_coeffs.csv files from output directory only
@@ -255,19 +255,15 @@ p_alnus <- plot_heatmap(effects_alnus, "Alnus")
 p_salix 
 ggsave(
   file.path(figures_dir, "Salix_GLMM_anomaly_heatmap.png"),
-  width = 10,
-  height = 5,
-  dpi = 300
+  plot = p_salix,
+  width = 10, height = 5, dpi = 300
 )
-
 
 p_alnus
 ggsave(
   file.path(figures_dir, "Alnus_GLMM_anomaly_heatmap.png"),
-  width = 10,
-  height = 5,
-  dpi = 300
+  plot = p_alnus,
+  width = 10, height = 5, dpi = 300
 )
-
 
 

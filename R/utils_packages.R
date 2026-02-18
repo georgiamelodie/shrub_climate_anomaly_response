@@ -16,7 +16,7 @@ load_project_packages <- function() {
     "lubridate",
     
     # plotting
-    "ggplot2", "patchwork",
+    "ggplot2", "patchwork", "grid"
     
     # dendro / climate-growth analysis
     "dplR", "treeclim",
