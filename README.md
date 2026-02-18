@@ -1,12 +1,10 @@
 # Hole et al. (2026) 
 Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Thermal thresholds constrain lignification and frost injury in Low Arctic shrubs of northwestern Canada. [In prep].
 
-The code in this repository reproduces the results of Hole et al. (2026) using dataset [DOI]. 
-This is a subset of data that is available on the UK Polar Data Centre (UK PDC) as part of the datasets:  
-“Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd.
-The UK PDC dataset uses unique machine-readable sample identifiers. For analysis, we use shorter alias identifiers (analysis_id) as R packages and plotting workflows are sensitive to long IDs. A crosswalk between analysis_id and the UK PDC pdc_sample_id is provided in ISR_salix_subset_samples_pdc_key.csv and ISR_alnus_subset_samples_pdc_key.csv (archived with the analysis dataset DOI). All derived tables can be joined back to the UK PDC dataset using this crosswalk.
+Code and data for analysis of taxon-specific thermal limitation of cell wall lignification and frost injury in Low Arctic shrubs.
 
-Code and data for analysis of taxon-specific thermal limitation of cell wall lignification in Low Arctic shrubs.
+This repository contains the analysis code and derived datasets required to reproduce the results of Hole et al. (2026). Primary datasets are archived separately (see Data Availability section). 
+
 
 # Repository Structure
 <pre>
@@ -30,20 +28,32 @@ shrub_climate_anomaly_response/
 │   utils_packages.R  
 │  
 ├── data/  
-│   alnusBRFRdata.csv  
-│   alspl10SV.csv  
-│   CRU4_tmp.dat  
-│   ERA5_prcp_daily.dat  
-│   ERA5_t2m_daily.dat  
-│   ERA5_tmin_daily.dat  
-│   ISR_alnus_RWI.csv  
-│   ISR_alnus_subset_samples.csv
-│   ISR_alnus_subset_sampleS_pdc_key.csv
-│   ISR_salix_RWI.csv  
-│   ISR_salix_subset_samples.csv
-│   ISR_salix_subset_samples_pdc_key.csv
-│   salixBRFRdata.csv  
-│   saspl10SV.csv  
+    │
+    ├── anomalies/               #anatomical anomaly occurrence datasets
+    │   alnusBRFRdata.csv  
+    │   salixBRFRdata.csv  
+    │
+    ├── rwi/                     #  RWI datasets
+    │   ISR_alnus_RWI.csv
+    │   ISR_salix_RWI.csv
+    │
+    ├── sample_metadata/         # sample metadata including latitude, longitude
+    │   ISR_alnus_subset_samples.csv
+    │   ISR_salix_subset_samples.csv
+    |
+    ├── id_crosswalk/             # mapping to UK PDC identifiers
+    │   ISR_salix_subset_samples_pdc_key.csv
+    │   ISR_alnus_subset_samples_pdc_key.csv
+    │
+    ├── climate_raw/              #external climate data inputs
+    │   CRU4_tmp.dat  
+    │   ERA5_prcp_daily.dat  
+    │   ERA5_t2m_daily.dat  
+    │   ERA5_tmin_daily.dat  
+    │
+    ├── derived/                  # site-level chronologies derived from sample-level RWI
+    │   alspl10SV.csv 
+    │   saspl10SV.csv
 │  
 ├── figures/    #output figures (created when scripts run)  
 ├── output/      #output tables (created when scripts run)  
@@ -87,4 +97,11 @@ source(here::here("R/00_paths_setup.R"))
 ~~~  
 
 # Data availability  
-The ```Data/``` directory contains analysis-ready datasets.
+The ```data/``` directory contains analysis-ready datasets.
+
+The raw data are available at the UK Polar Data Centre (UK PDC) as part of the datasets:  
+1. “Shrub ring width measurements of Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024”: https://doi.org/10.5285/bd62a79f-473b-4c00-a111-3bbe6bd446fd.
+2. [Blue ring and Frost ring dataset DOI pending]
+3. Sample inventories of reference (unbrowsed) and browsed Alnus alnobetula and Salix spp. collected from the Inuvialuit Settlement region, Northwest Territories, Canada, 2022-2024 (Version 1.0) [Data set]. NERC EDS UK Polar Data Centre. https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.
+
+The UK PDC dataset uses unique machine-readable sample identifiers. For analysis, we use shorter alias identifiers (analysis_id) as R packages and plotting workflows are sensitive to long IDs. A crosswalk between analysis_id and the UK PDC pdc_sample_id is provided in ISR_salix_subset_samples_pdc_key.csv and ISR_alnus_subset_samples_pdc_key.csv (archived with the analysis dataset DOI). All derived tables can be joined back to the UK PDC dataset using this crosswalk.
