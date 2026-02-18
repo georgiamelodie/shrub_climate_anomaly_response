@@ -114,7 +114,7 @@ df_long <- df_long %>%
 df_long <- df_long %>% filter(present)
 
 
-# Merge latitude info
+# merge latitude info
 df_long <- df_long %>%
   left_join(lat_df, by = c("SampleID" = "ID"))
 
@@ -127,7 +127,7 @@ df_long <- df_long %>%
     tFEW = as.integer((FEW + pFEW) > 0)
   )
 
-# Filter years 
+# filter years 
 df_long <- df_long %>%
   filter(Year >= 1950)
 
@@ -543,7 +543,7 @@ write.csv(
 
 
 
-
+###effect table for manuscript
 effect_table <- tidy_best %>%
   dplyr::filter(term != "(Intercept)") %>%
   dplyr::mutate(
@@ -574,7 +574,7 @@ write.csv(
 
 
 
-######Testing preceding year impact
+######testing preceding year impact
 
 vars_legacy <- c(
   "tBLW","SampleID", "lat_s","Age_s", 
@@ -588,7 +588,7 @@ df_legacy <- df_mod %>%
 
 
 
-# Baseline (no climate)
+# baseline (no climate)
 m0_null_legacy <- glmer(
   tBLW ~ lat_s + Age_s + (1 | SampleID),
   data = df_legacy,
@@ -673,7 +673,7 @@ r2_supported
 # best-supported current-year model
 best_current <- get.models(sel_current, 1)[[1]]
 
-#  scale parameters from the UN-SCALED columns 
+#  scale parameters from the unscaled columns 
 scale_params_current <- list(
   m5_mean = mean(df_mod$tmin_CDD_month5, na.rm = TRUE),
   m5_sd   = sd(df_mod$tmin_CDD_month5, na.rm = TRUE),
@@ -771,7 +771,7 @@ ggplot(all_preds_current, aes(x = orig_x, y = fit)) +
   )
 
 
-
+##save plot
 ggsave(
   file.path(figures_dir, "Alnus_LWBR_current_climate_prediction.png"),
   width = 6,
@@ -835,6 +835,7 @@ ggplot(all_preds_current, aes(x = orig_x, y = fit)) +
   )
 
 
+#save plot
 ggsave(
   file.path(figures_dir, "graphicalabstract_Alnus_LWBR_current_climate_prediction.png"),
   width = 6,
@@ -846,16 +847,16 @@ ggsave(
 
 
 
-#####suppl table for age versus LWBR prediction plot
+#####supp. materials table for age versus LWBR prediction plot
 
 
 library(dplyr)
 library(ggplot2)
 
-# Use the same best current-year model as your climate plots
+# Use same best current-year model as climate plots
 best_current <- get.models(sel_current, 1)[[1]]
 
-# --- Build a ring-age sequence on the ORIGINAL ring-age scale ---
+#build a ring-age sequence on original ring-age scale
 # Option 1 (recommended): use the unscaled Age column if available
 age_seq <- seq(
   min(df_mod$Age, na.rm = TRUE),
@@ -863,21 +864,21 @@ age_seq <- seq(
   length.out = 100
 )
 
-# --- Convert to scaled Age_s using your mean/sd ---
+#convert to scaled Age_s 
 age_mean <- mean(df_mod$Age, na.rm = TRUE)
 age_sd   <- sd(df_mod$Age, na.rm = TRUE)
 age_seq_s <- (age_seq - age_mean) / age_sd
 
-# --- Newdata: hold climate + latitude at mean (0 on scaled scale) ---
+#new data: hold climate and latitude at mean (0 on scaled scale)
 nd_age <- data.frame(
   lat_s = 0,
   Age_s = age_seq_s,
   tmin_CDD_month5_s = 0,
   tmin_CDD_month8_s = 0,
-  tmin_CDD_month9_s = 0   # keep if the model includes it (your earlier error indicates it does)
+  tmin_CDD_month9_s = 0   
 )
 
-# Predict (population-level: random effects excluded)
+#predict (population-level: random effects excluded)
 pr_age <- predict(best_current, newdata = nd_age, type = "link", se.fit = TRUE, re.form = NA)
 
 age_preds <- data.frame(
@@ -887,7 +888,7 @@ age_preds <- data.frame(
   upper = plogis(pr_age$fit + 1.96 * pr_age$se.fit)
 )
 
-# --- Plot (match your Alnus style) ---
+#plot 
 ggplot(age_preds, aes(x = RingAge, y = fit)) +
   geom_ribbon(aes(ymin = lower, ymax = upper, fill = "LWBR"), alpha = 0.25) +
   geom_line(aes(color = "LWBR"), linewidth = 1) +
@@ -910,7 +911,7 @@ ggplot(age_preds, aes(x = RingAge, y = fit)) +
     legend.position = "none"
   )
 
-
+#save plot
 ggsave(
   file.path(figures_dir, "Alnus_LWBR_age_prediction.png"),
   width = 6,
