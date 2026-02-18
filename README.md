@@ -99,33 +99,33 @@ source(here::here("R/00_paths_setup.R"))
 
 ## Data availability
 The ```data/``` directory contains analysis-ready datasets. 
-A complete reproducibility archive (code + all data required to run the analysis) is available via a private Zenodo deposit: [DOI]
+A complete reproducibility archive (code + all data required to run the analysis) is available via a private Zenodo deposit: [DOI]  
 
 
 ## Data sources
 ### Anatomical anomaly datasets
-Anatomical anomaly datasets (BRFR) contain newly generated manually identified blue ring and frost ring occurrences.
+Anatomical anomaly datasets (BRFR) contain newly generated manually identified blue ring and frost ring occurrences.  
 
 ### Ring width datasets
-Ring Width Index (RWI) data include both previously archived material and newly processed measurements.
+Ring Width Index (RWI) data include both previously archived material and newly processed measurements.  
 
 ### Derived
-RWI site-level chronologies derived from sample RWI data.
+RWI site-level chronologies derived from sample RWI data.  
 
 ### Sample identifiers  
-To ensure compatibility with R modelling workflows, shortened analysis identifiers are used in this repository. Mapping between analysis_ID and pdc_sample_ID is provided in:
+To ensure compatibility with R modelling workflows, shortened analysis identifiers are used in this repository. Mapping between analysis_ID and pdc_sample_ID is provided in:  
 ~~~
 data/id_crosswalk/
 ~~~
-These crosswalk tables allow full traceability to UK PDC archived identifiers.
-Sample inventory data archived at UK Polar Data Centre https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.
+These crosswalk tables allow full traceability to UK PDC archived identifiers.  
+Sample inventory data archived at UK Polar Data Centre https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.  
 
 
 ### Climate Data  
-These files are provided in data/climate_raw/ to ensure reproducibility of model outputs and temperature threshold analyses.
-Original data sources:
-ERA5: Copernicus Climate Data Store
-CRU: Climatic Research Unit, University of East Anglia
+These files are provided in data/climate_raw/ to ensure reproducibility of model outputs and temperature threshold analyses.  
+Original data sources:  
+ERA5: Copernicus Climate Data Store  
+CRU: Climatic Research Unit, University of East Anglia  
 
 ## License  
 MIT
