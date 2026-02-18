@@ -61,11 +61,12 @@ shrub_climate_anomaly_response.Rproj
 
 2.Install and load required packages  
 ~~~
-source("R/utils_packages.R")  
+source(here::here("R/utils_packages.R"))
 load_project_packages()
+source(here::here("R/00_paths_setup.R"))
 ~~~
 
-3. Run scripts in numerical order:
+3. Each script is standalone and can be run independently after opening the project. Scripts may be executed in numerical order to reproduce the full workflow:
 ~~~  
 00_paths_setup.R  - project setup  
 01_chronology_formation.R  - form growth ring width index (RWI) chronologies
