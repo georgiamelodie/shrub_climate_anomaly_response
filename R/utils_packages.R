@@ -39,7 +39,7 @@ load_project_packages <- function() {
     )
   }
   
-  # Type-III sums-of-squares by default (if you use car::Anova etc.)
+  # Set factor contrasts globally (relevant if models include factors)
   options(contrasts = c("contr.sum", "contr.poly"))
 }
 
