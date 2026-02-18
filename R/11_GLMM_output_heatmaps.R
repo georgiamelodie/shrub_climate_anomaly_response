@@ -196,7 +196,7 @@ ggplot(effects_all, aes(x = Full_label, y = model, fill = log_OR)) +
     axis.text.x = element_text(angle = 45, hjust = 1, colour = "black"),
     axis.text.y = element_text(colour = "black"),
     legend.position = "bottom",
-    legend.key.width = unit(1.5, "cm"),
+    legend.key.width = grid::unit(1.5, "cm"),
     legend.text = element_text(size = 10),
     legend.title = element_text(size = 10)
   )
