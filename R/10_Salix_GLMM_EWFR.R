@@ -17,22 +17,6 @@ if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
 
 
-library(utils)
-library(dplR)
-library(tidyr)
-library(readr)
-library(ggplot2)
-library(corrplot)
-library(lme4)
-library(MuMIn)
-library(MASS)
-library(dplyr)
-library(lubridate)
-library(stringr)
-library(broom.mixed)
-library(tibble)
-
-
 
 #load wood anatomy anomaly data
 raw <- read.csv(
@@ -99,9 +83,6 @@ for (sample in colnames(rings)[-1]) {
   }
 }
 
-
-
-library(dplyr)
 
 df_long <- df_long %>%
   arrange(SampleID, Year) %>%
@@ -426,7 +407,6 @@ m4_earlyGDDprecip <- glmer(
 )
 
 
-library(MuMIn)
 options(na.action = "na.fail")
 
 cand_set_current <- list(
@@ -516,7 +496,7 @@ tidy_best
 
 write.csv(
   tidy_best,
-  file.path(output_dir, "Salix_EWFR_model_current_coeffs.csv"),
+  file.path(output_dir, "Salix_EWFR_current_model_coeffs.csv"),
   row.names = FALSE
 )
 
@@ -530,10 +510,6 @@ write.csv(
 ###### EWFR: testing preceding-year (legacy) climate effects
 ##current-year EWFR best models predictors: May and June GDD, or May and  June GDD and May and June precip
 
-library(dplyr)
-library(tidyr)
-library(lme4)
-library(MuMIn)
 
 # variables
 vars_legacy <- c(
@@ -644,10 +620,6 @@ nrow(df_legacy)
 sum(df_current$tFEW == 1); mean(df_current$tFEW == 1)
 sum(df_legacy$tFEW == 1);  mean(df_legacy$tFEW == 1)
 
-# how many rows overlap?
-nrow(dplyr::semi_join(df_current, df_legacy, by = c("SampleID","tFEW","lat_s","Age_s")))
-
-
 
 
 best_legacy <- get.models(sel_legacy, 1)[[1]]
@@ -655,7 +627,7 @@ best_legacy
 
 
 # R2
-r.squaredGLMM(m_prevAugGDD_prevSepPrecip)
+r.squaredGLMM(best_legacy)
 
 ###check overdispersion
 overdisp_fun <- function(model) {
@@ -670,7 +642,7 @@ overdisp_fun <- function(model) {
 overdisp_fun(best_legacy)
 
 ###to check the sign moderate overdispersion, 
-library(DHARMa)
+
 res <- simulateResiduals(best_legacy, n = 1000)
 plot(res)
 testDispersion(res)
