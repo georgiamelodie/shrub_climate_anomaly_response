@@ -16,22 +16,6 @@ if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
 
 
-library(utils)
-library(dplR)
-library(tidyr)
-library(readr)
-library(ggplot2)
-library(corrplot)
-library(lme4)
-library(MuMIn)
-library(MASS)
-library(dplyr)
-library(lubridate)
-library(stringr)
-library(broom.mixed)
-library(tibble)
-
-
 
 #load wood anatomy anomaly data
 raw <- read.csv(
@@ -107,7 +91,7 @@ for (sample in colnames(rings)[-1]) {
 
 
 
-library(dplyr)
+
 
 df_long <- df_long %>%
   arrange(SampleID, Year) %>%
@@ -443,7 +427,6 @@ m7_earlylateCDD <- glmer(
 
 
 
-library(MuMIn)
 options(na.action = "na.fail")
 
 cand_set_current <- list(
@@ -636,9 +619,6 @@ m_carryoverCDD <- glmer(
 )
 
 
-
-
-library(MuMIn)
 options(na.action = "na.fail")
 
 legacy_set <- list(
@@ -773,9 +753,6 @@ write.csv(
 
 
 ##########
-library(dplyr)
-library(ggplot2)
-
 # best-supported current-year model
 best_current <- get.models(sel_current, 1)[[1]]
 
