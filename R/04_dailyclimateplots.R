@@ -265,7 +265,7 @@ plot_cdd_highlight_year(
 #2000
 plot_cdd_highlight_year(
   ETM, mean_temp_all, 2000,
-  outfile = save_plot_path("CDD", 2002, out_ext),
+  outfile = save_plot_path("CDD", 2000, out_ext),
   width = 8, height = 5, dpi = 300
 )
 
@@ -279,7 +279,7 @@ plot_cdd_highlight_year(
 #2012
 plot_cdd_highlight_year(
   ETM, mean_temp_all, 2012,
-  outfile = save_plot_path("CDD", 2002, out_ext),
+  outfile = save_plot_path("CDD", 2012, out_ext),
   width = 8, height = 5, dpi = 300
 )
 
@@ -300,7 +300,7 @@ plot_cdd_highlight_year(
 #2018
 plot_cdd_highlight_year(
   ETM, mean_temp_all, 2018,
-  outfile = save_plot_path("CDD", 2002, out_ext),
+  outfile = save_plot_path("CDD", 2018, out_ext),
   width = 8, height = 5, dpi = 300
 )
 
@@ -644,7 +644,7 @@ for (yr in highlight_years) {
 
 precip_file <- here("data", "ERA5_prcp_daily.dat")
 readLines(precip_file, n = 25)
-ERA5P <- read.table(precip_file, header = FALSE, skip = 23)
+ERA5P <- read.table(precip_file, header = FALSE, skip = 22)
 
 head(ERA5P)
 colnames(ERA5P) <- c("Date", "precip")
