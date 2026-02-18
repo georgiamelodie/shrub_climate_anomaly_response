@@ -23,6 +23,8 @@ shrub_climate_anomaly_response/
 │   09_Alnus_GLMM_EWFR.R  
 │   10_Salix_GLMM_EWFR.R  
 │   11_GLMM_output_heatmaps.R  
+│   12_LWBR_Tthreshold_Alnus.R  
+│   13_LWBR_Tthreshold_Salix.R  
 │   utils_packages.R  
 │  
 ├── data/  
@@ -70,13 +72,15 @@ load_project_packages()
 02_climate_growth_analysis.R  - climate/RWI relationships
 03_BRFR_plots.R  - create blue ring and frost ring frequency plots
 04_dailyclimateplots.R  - create climate plots
-05_Alnus_GLMM_LWBR.R  - Alnus latewood blue ring - climate model
-06_Salix_GLMM_LWBR.R  - Salix latewood blue ring - climate model
-07_Alnus_GLMM_LWFR.R  - Alnus latewood frost ring - climate model
-08_Salix_GLMM_LWFR.R  - Salix latewood frost ring - climate model
-09_Alnus_GLMM_EWFR.R  - Alnus earlywood frost ring - climate model
-10_Salix_GLMM_EWFR.R  - frost earlywood frost ring - climate model
+05_Alnus_GLMM_LWBR.R  - Alnus latewood blue ring - climate model  
+06_Salix_GLMM_LWBR.R  - Salix latewood blue ring - climate model  
+07_Alnus_GLMM_LWFR.R  - Alnus latewood frost ring - climate model  
+08_Salix_GLMM_LWFR.R  - Salix latewood frost ring - climate model  
+09_Alnus_GLMM_EWFR.R  - Alnus earlywood frost ring - climate model  
+10_Salix_GLMM_EWFR.R  - frost earlywood frost ring - climate model  
 11_GLMM_output_heatmaps.R  - heatmap plot of model outputs
+12_LWBR_Tthreshold_Alnus.R - calculate Temp threshold for  Alnus LWBR
+13_LWBR_Tthreshold_Salix.R - calculate Temp threshold for Salix LWBR  
 ~~~  
 
 # Data availability  
