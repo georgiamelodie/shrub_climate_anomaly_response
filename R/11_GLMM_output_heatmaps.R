@@ -17,8 +17,7 @@ if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 
 
 ###
-# Read ALL *_coeffs.csv files from output directory only
-
+# Read *_coeffs.csv files from output directory only
 
 files <- list.files(
   path = output_dir,
@@ -67,7 +66,7 @@ effects_all <- purrr::map_dfr(files, function(f) {
 
 
 
-# Select which model set (current vs legacy) to use for each taxon × anomaly. determined from previous AICc comparison
+# Select which model set (current vs prevyear) to use for each taxon × anomaly. determined from previous AICc comparison
 best_model_key <- tibble::tribble(
   ~taxa,   ~model,  ~year_type_keep,
   "Salix", "EWFR",  "prev",
