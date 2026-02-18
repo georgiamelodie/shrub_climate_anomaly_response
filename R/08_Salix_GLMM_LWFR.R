@@ -17,21 +17,6 @@ if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
 
 
-library(utils)
-library(dplR)
-library(tidyr)
-library(readr)
-library(ggplot2)
-library(corrplot)
-library(lme4)
-library(MuMIn)
-library(MASS)
-library(dplyr)
-library(lubridate)
-library(stringr)
-library(broom.mixed)
-library(tibble)
-
 
 
 #load wood anatomy anomaly data
@@ -67,7 +52,7 @@ df_long <- data.frame(
   stringsAsFactors = FALSE
 )
 
-for (sample in colnames(rings)[-1]) {
+for (sample in setdiff(colnames(rings), "year"))  {
   for (i in 1:nrow(rings)) {
     
     year <- rings$year[i]
@@ -99,10 +84,6 @@ for (sample in colnames(rings)[-1]) {
     ))
   }
 }
-
-
-
-library(dplyr)
 
 df_long <- df_long %>%
   arrange(SampleID, Year) %>%
@@ -459,7 +440,6 @@ m8_earlylateCDD <- glmer(
 
 
 
-library(MuMIn)
 options(na.action = "na.fail")
 
 cand_set_current <- list(
@@ -672,7 +652,7 @@ m_prevCDDprecip <- glmer(
                          optCtrl = list(maxfun = 5e5))
 )
 
-library(MuMIn)
+
 options(na.action = "na.fail")
 
 legacy_set <- list(
