@@ -156,7 +156,7 @@ make_cdd_ribbon <- function(data, year_value, base_temp = 5,
 
 
 
-
+###plot function for highlight year
 plot_cdd_highlight_year <- function(ETM, mean_temp_all,
                                     highlight_year,
                                     base_temp = 5,
@@ -246,10 +246,26 @@ plot_cdd_highlight_year(
   width = 8, height = 5, dpi = 300
 )
 
+
+#1994
+plot_cdd_highlight_year(
+  ETM, mean_temp_all, 1994,
+  outfile = save_plot_path("CDD", 1994, out_ext),
+  width = 8, height = 5, dpi = 300
+)
+
 #1996
 plot_cdd_highlight_year(
   ETM, mean_temp_all, 1996,
   outfile = save_plot_path("CDD", 1996, out_ext),
+  width = 8, height = 5, dpi = 300
+)
+
+
+#2000
+plot_cdd_highlight_year(
+  ETM, mean_temp_all, 2000,
+  outfile = save_plot_path("CDD", 2002, out_ext),
   width = 8, height = 5, dpi = 300
 )
 
@@ -260,14 +276,6 @@ plot_cdd_highlight_year(
   width = 8, height = 5, dpi = 300
 )
 
-#2000
-plot_cdd_highlight_year(
-  ETM, mean_temp_all, 2000,
-  outfile = save_plot_path("CDD", 2002, out_ext),
-  width = 8, height = 5, dpi = 300
-)
-
-
 #2012
 plot_cdd_highlight_year(
   ETM, mean_temp_all, 2012,
@@ -275,6 +283,19 @@ plot_cdd_highlight_year(
   width = 8, height = 5, dpi = 300
 )
 
+#2015
+plot_cdd_highlight_year(
+  ETM, mean_temp_all, 2015,
+  outfile = save_plot_path("CDD", 2015, out_ext),
+  width = 8, height = 5, dpi = 300
+)
+
+#2017
+plot_cdd_highlight_year(
+  ETM, mean_temp_all, 2017,
+  outfile = save_plot_path("CDD", 2017, out_ext),
+  width = 8, height = 5, dpi = 300
+)
 
 #2018
 plot_cdd_highlight_year(
@@ -282,10 +303,6 @@ plot_cdd_highlight_year(
   outfile = save_plot_path("CDD", 2002, out_ext),
   width = 8, height = 5, dpi = 300
 )
-
-
-
-
 
 
 
@@ -444,6 +461,7 @@ plot_highlight_year <- function(ET2M, ET2Mm, highlight_year,
   
   invisible(p)
 }
+
 
 
 ###plot and save for years used in publication figure
@@ -619,8 +637,6 @@ for (yr in highlight_years) {
 
 
 ##########
-
-
 #####Precipitation for highlight anomaly years
 
 #precipitation - using ERA as CRU lacks data for the region
@@ -784,7 +800,7 @@ plot_precip_highlight_year <- function(precip_long, climatology,
 }
 
 # Choose highlight years 
-highlight_years <- c(1967, 1994, 2003, 2015)  # <- edit this list as needed
+highlight_years <- c(1994, 2015, 2017)  # <- edit this list as needed
 
 for (yr in highlight_years) {
   plot_precip_highlight_year(
