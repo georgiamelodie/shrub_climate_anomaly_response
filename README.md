@@ -30,7 +30,7 @@ shrub_climate_anomaly_response/
 ├── data/  
 │   alnusBRFRdata.csv  
 │   alspl10SV.csv  
-│   CRU4_tmp_.dat  
+│   CRU4_tmp.dat  
 │   ERA5_prcp_daily.dat  
 │   ERA5_t2m_daily.dat  
 │   ERA5_tmin_daily.dat  
