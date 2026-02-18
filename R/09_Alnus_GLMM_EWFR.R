@@ -493,7 +493,7 @@ tidy_best <- best_coef %>%
 tidy_best
 write.csv(
   tidy_best,
-  file.path(output_dir, "Alnus_EWFR_model_current_coeffs.csv"),
+  file.path(output_dir, "Alnus_EWFR_current_model_coeffs.csv"),
   row.names = FALSE
 )
 
@@ -611,11 +611,6 @@ nrow(df_legacy)
 # event rate
 sum(df_current$tFEW == 1); mean(df_current$tFEW == 1)
 sum(df_legacy$tFEW == 1);  mean(df_legacy$tFEW == 1)
-
-# how many rows overlap?
-nrow(dplyr::semi_join(df_current, df_legacy, by = c("SampleID","tFEW","lat_s","Age_s")))
-
-
 
 
 best_legacy <- get.models(sel_legacy, 1)[[1]]
