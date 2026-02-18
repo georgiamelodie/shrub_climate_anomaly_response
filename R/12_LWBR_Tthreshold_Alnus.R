@@ -116,7 +116,7 @@ df_long_alnus <- df_long_alnus %>%
 
 
 
-# Number of shrubs contributing per year
+#number of shrubs contributing per year
 n_by_year <- df_long_alnus %>%
   filter(Year >= 1950) %>%
   count(Year, name = "n")
@@ -185,18 +185,17 @@ T_low
 T_high
 
 
-Ts <- seq(T_low, T_high, by = 0.5)  # adjust bounds/step to your biology & climate range
+Ts <- seq(T_low, T_high, by = 0.5)  
 E_aug_grid <- bind_rows(lapply(Ts, make_E_aug, dat = tmin_daily))
 
 # E_aug_grid has: Year, E_aug, T
 dplyr::glimpse(E_aug_grid)
 
 
-# Combine with E_aug for all candidate thresholds
+#combine with E_aug for all candidate thresholds
 yr_thresh <- yr_dat %>%
   left_join(E_aug_grid, by = c("Year" = "Year"))
 
-# Now yr_thresh has one row per (Year × T)
 head(yr_thresh)
 
 
@@ -226,7 +225,7 @@ head(AIC_tbl)
 
 
 
-####Temperature threshold without lowest AIC - Tstar
+##temperature threshold without lowest AIC - Tstar
 T_star <- AIC_tbl$T[which.min(AIC_tbl$AIC)]
 T_star
 
@@ -234,11 +233,11 @@ T_star
 AIC_tbl <- AIC_tbl %>%
   mutate(deltaAIC = AIC - min(AIC, na.rm = TRUE))
 
-# Candidate support range
+#candidate support range
 subset(AIC_tbl, deltaAIC <= 2)
 
 
-
+##bootstrapping
 set.seed(123)
 
 boot_Tstar <- function(dat){
@@ -330,15 +329,15 @@ bracket <- 1     # degrees C
 step    <- 0.5   # to match Ts step
 
 Ts_used <- seq(T_sup_low - bracket, T_sup_high + bracket, by = step)
-
+Ts_used <- intersect(Ts_used, sort(unique(yr_thresh$T)))
 
 boot_mat <- replicate(B, boot_support_interval(yr_thresh, Ts_used))
 boot_df <- as.data.frame(t(boot_mat))
 
-# Point estimate distribution
+#point estimate distribution
 quantile(boot_df$T_best, c(0.025, 0.5, 0.975), na.rm=TRUE)
 
-# Support-interval uncertainty (often what you actually want)
+#support-interval uncertainty (often what you actually want)
 quantile(boot_df$T_lo, c(0.1, 0.5, 0.9), na.rm=TRUE)
 quantile(boot_df$T_hi, c(0.1, 0.5, 0.9), na.rm=TRUE)
 
@@ -382,13 +381,13 @@ library(ggplot2)
 #E50: cumulative cumulative cold exposure below Tstar associated with a predicted LWBR probability of 0.5.
 #T_star <- 4
 
-# 1) Subset data to the chosen threshold
+#subset data to the chosen threshold
 d_star <- yr_thresh %>% filter(T == T_star)
 
-# 2) Fit the binomial model at T*
+#fit the binomial model at T*
 m_star <- glm(cbind(k, n - k) ~ E_aug, family = binomial, data = d_star)
 
-# 3) Prediction grid over observed E_aug range
+#prediction grid over observed E_aug range
 newdat <- data.frame(
   E_aug = seq(min(d_star$E_aug, na.rm = TRUE),
               max(d_star$E_aug, na.rm = TRUE),
@@ -404,7 +403,7 @@ newdat <- newdat %>%
     p_high = plogis(pr$fit + 1.96 * pr$se.fit)
   )
 
-# 4) Compute E_aug where predicted p = 0.5
+#compute E_aug where predicted p = 0.5
 b0 <- coef(m_star)[1]
 b1 <- coef(m_star)[2]
 E50 <- -b0 / b1
