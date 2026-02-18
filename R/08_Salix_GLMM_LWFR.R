@@ -141,7 +141,7 @@ df_long <- df_long %>%
 
 
 ####climate 
-#function for climate data parametetrs 
+#function for climate data parameters 
 prepare_monthly_climate <- function(filepath,
                                     varname,
                                     value_name = "value",
@@ -552,6 +552,7 @@ tidy_best <- best_coef %>%
 
 tidy_best
 
+#save model coeffs 
 write.csv(
   tidy_best,
   file.path(output_dir, "Salix_LWFR_model_current_coeffs.csv"),
@@ -559,6 +560,7 @@ write.csv(
 )
 
 
+##model effects table
 effect_table <- tidy_best %>%
   dplyr::filter(term != "(Intercept)") %>%
   dplyr::mutate(
@@ -580,7 +582,7 @@ effect_table <- effect_table %>%
   mutate(`Odds ratio (95% CI)` = gsub("\\.00", "", `Odds ratio (95% CI)`))
 effect_table
 
-
+##save model effects table
 write.csv(
   effect_table,
   file.path(output_dir, "Salix_LWFR_current_model_OR.csv"),
@@ -593,7 +595,7 @@ write.csv(
 
 
 
-######Testing preceding year impact
+######Testing previous year impact
 
 vars_legacy <- c(
   "tFLW","SampleID", "lat_s","Age_s", 
@@ -713,7 +715,7 @@ overdisp_fun(best_legacy)
 
 
 #####
-####legacy coeff table with ORs
+####previous year model coeff table with ORs
 best_legacy <- m_prevCDDprecip
 
 #### coefficients table with ORs (legacy model)
@@ -755,6 +757,7 @@ tidy_legacy <- legacy_coef %>%
 
 tidy_legacy
 
+#save previous year model coeffs
 write.csv(
   tidy_legacy,
   file.path(output_dir, "Salix_LWFR_prevyear_model_coeffs.csv"),
@@ -764,7 +767,7 @@ write.csv(
 
 
 
-
+#previous year model effects table
 legacy_effect_table <- tidy_bestlegacy %>%
   # keep fixed effects only
   dplyr::filter(effect == "fixed", term != "(Intercept)") %>%
@@ -798,7 +801,7 @@ legacy_effect_table <- tidy_bestlegacy %>%
 legacy_effect_table
 
 
-
+#save previous year model effects table
 write.csv(
   effect_table,
   file.path(output_dir, "Salix_LWFR_prevyear_model_OR.csv"),
