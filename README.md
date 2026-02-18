@@ -90,7 +90,7 @@ source(here::here("R/00_paths_setup.R"))
 07_Alnus_GLMM_LWFR.R  - Alnus latewood frost ring - climate model  
 08_Salix_GLMM_LWFR.R  - Salix latewood frost ring - climate model  
 09_Alnus_GLMM_EWFR.R  - Alnus earlywood frost ring - climate model  
-10_Salix_GLMM_EWFR.R  - frost earlywood frost ring - climate model  
+10_Salix_GLMM_EWFR.R  - Salix earlywood frost ring - climate model  
 11_GLMM_output_heatmaps.R  - heatmap plot of model outputs
 12_LWBR_Tthreshold_Alnus.R - calculate Temp threshold for  Alnus LWBR
 13_LWBR_Tthreshold_Salix.R - calculate Temp threshold for Salix LWBR  
@@ -99,8 +99,7 @@ source(here::here("R/00_paths_setup.R"))
 
 ## Data availability
 The ```data/``` directory contains analysis-ready datasets. 
-A complete reproducibility archive (code + all data required to run the analysis) is available via a private Zenodo deposit: [DOI]  
-
+A complete archive (code and data required to run the analysis) is available via a private Zenodo deposit for peer review. The public DOI will be added upon publication.
 
 ## Data sources
 ### Anatomical anomaly datasets
