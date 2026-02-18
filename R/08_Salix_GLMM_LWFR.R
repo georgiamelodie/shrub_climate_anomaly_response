@@ -690,7 +690,7 @@ print(sel_legacy)
 supported_legacy <- get.models(sel_legacy, subset = delta <= 2)
 names(supported_legacy)
 
-
+#bets is prevCDDprecip
 
 #carryoverCDD optimum model
 best_legacy <- m_prevCDDprecip
@@ -803,7 +803,7 @@ legacy_effect_table
 
 #save previous year model effects table
 write.csv(
-  effect_table,
+  legacy_effect_table,
   file.path(output_dir, "Salix_LWFR_prevyear_model_OR.csv"),
   row.names = FALSE
 )

@@ -507,7 +507,7 @@ tidy_best <- best_coef %>%
     odds_ratio, conf.low.OR, conf.high.OR
   )
 
-
+#save model coeffs
 tidy_best
 write.csv(
   tidy_best,
@@ -518,10 +518,7 @@ write.csv(
 
 
 
-######Testing preceding year impact
-
-###### EWFR: testing preceding-year (legacy) climate effects
-##current-year EWFR best models predictors: May and June CDD, or May and  June CDD and May and June precip
+######Testing previous year effects models
 
 library(dplyr)
 library(tidyr)
@@ -718,7 +715,7 @@ tidy_legacy <- best_coef %>%
     odds_ratio, conf.low.OR, conf.high.OR
   )
 
-
+#save model coeffs 
 tidy_legacy
 write.csv(
   tidy_legacy,
