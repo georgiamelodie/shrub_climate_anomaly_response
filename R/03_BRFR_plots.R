@@ -159,7 +159,7 @@ brfr_plot <- ggplot() +
       shape = anom_class, fill = anom_class, size = anom_class
     ),
     colour = "black",
-    stroke = 0.7
+    stroke = 0.4
   ) +
   
   #partial anomalies
@@ -170,7 +170,7 @@ brfr_plot <- ggplot() +
       shape = anom_class, fill = anom_class, size = anom_class
     ),
     colour = "black",
-    stroke = 0.7
+    stroke = 0.4
   ) +
   
   scale_shape_manual(
@@ -219,11 +219,179 @@ brfr_plot <- ggplot() +
 # Print
 brfr_plot
 
+#save plot
+ggsave(file.path(figures_dir, "LWBRLWFR_plot.jpg"), brfr_plot, width = 8, height = 10, dpi = 300)
 
-ggsave(file.path(figures_dir, "BRFR_plot.jpg"), brfr_plot, width = 8, height = 10, dpi = 300)
 
 
 
+#####Plot of EWBR, EWFR (supp. materials plot)
+# function to process alnus and salix BRs and FRs (earlywood: BEW/FEW)
+process_species <- function(df, species_name) {
+  
+  long <- df %>%
+    pivot_longer(
+      cols = -year,
+      names_to = "sample",
+      values_to = "anomaly_raw"
+    ) %>%
+    mutate(anomaly_raw = str_trim(anomaly_raw)) %>%
+    separate_rows(anomaly_raw, sep = ",") %>%
+    mutate(
+      anomaly_raw = str_trim(anomaly_raw),
+      
+      # 1) classify blue vs frost (earlywood codes)
+      anomaly = case_when(
+        str_detect(anomaly_raw, regex("BEW", ignore_case = TRUE)) ~ "blue",
+        str_detect(anomaly_raw, regex("FEW", ignore_case = TRUE)) ~ "frost",
+        TRUE ~ NA_character_
+      ),
+      
+      # 2) classify full vs partial (earlywood codes)
+      anomaly_strength = case_when(
+        str_detect(anomaly_raw, regex("^pBEW$|^pFEW$", ignore_case = TRUE)) ~ "partial",
+        str_detect(anomaly_raw, regex("BEW|FEW", ignore_case = TRUE)) ~ "full",
+        TRUE ~ NA_character_
+      ),
+      
+      species = species_name
+    )
+  
+  spans <- long %>%
+    filter(!is.na(anomaly_raw) & anomaly_raw != "") %>%
+    group_by(sample, species) %>%
+    summarise(
+      first_year = min(year, na.rm = TRUE),
+      last_year  = max(year, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(last_year)) %>%
+    mutate(sample_order = factor(sample, levels = sample))
+  
+  list(long = long, spans = spans)
+}
+
+# process
+salix_data <- process_species(dfsalix, "Salix")
+alnus_data <- process_species(dfalnus, "Alnus")
+
+long_all  <- bind_rows(salix_data$long,  alnus_data$long)
+spans_all <- bind_rows(salix_data$spans, alnus_data$spans)
+
+# combined factor (blue_full, blue_partial, frost_full, frost_partial)
+long_all <- long_all %>%
+  mutate(anom_class = paste(anomaly, anomaly_strength, sep = "_"))
+
+# colours
+lifespan_colours <- c(
+  "Salix" = "#2196F3",
+  "Alnus" = "#D55E00"
+)
+
+# shapes
+shape_vals <- c(
+  blue_full      = 22,  # filled square
+  blue_partial   = 0,   # empty square
+  frost_full     = 23,  # filled diamond
+  frost_partial  = 5    # empty diamond
+)
+
+# sizes
+size_vals <- c(
+  blue_full = 1.5,
+  blue_partial = 1,
+  frost_full = 2,
+  frost_partial = 1.5
+)
+
+# fills
+fill_vals <- c(
+  blue_full      = "#264bff",
+  blue_partial   = NA,
+  frost_full     = "lightblue",
+  frost_partial  = NA
+)
+
+# x-axis breaks at multiples of 5
+x_breaks <- seq(
+  from = floor(min(long_all$year, na.rm = TRUE) / 5) * 5,
+  to   = ceiling(max(long_all$year, na.rm = TRUE) / 5) * 5,
+  by   = 5
+)
+
+# plot (earlywood)
+brfr_plot <- ggplot() +
+  geom_segment(
+    data = spans_all,
+    aes(
+      x = first_year, xend = last_year,
+      y = sample_order, yend = sample_order,
+      colour = species
+    ),
+    linewidth = 1.1
+  ) +
+  scale_colour_manual(values = lifespan_colours, guide = "none") +
+  
+  geom_point(
+    data = long_all %>% filter(anomaly_strength == "full" & !is.na(anom_class)),
+    aes(x = year, y = sample, shape = anom_class, fill = anom_class, size = anom_class),
+    colour = "black",
+    stroke = 0.4
+  ) +
+  geom_point(
+    data = long_all %>% filter(anomaly_strength == "partial" & !is.na(anom_class)),
+    aes(x = year, y = sample, shape = anom_class, fill = anom_class, size = anom_class),
+    colour = "black",
+    stroke = 0.4
+  ) +
+  
+  scale_shape_manual(
+    values = shape_vals,
+    name = "Anomaly type",
+    labels = c(
+      blue_full = "EWBR",
+      blue_partial = "pEWBR",
+      frost_full = "EWFR",
+      frost_partial = "pEWFR"
+    )
+  ) +
+  scale_fill_manual(
+    values = fill_vals,
+    name = "Anomaly type",
+    labels = c(
+      blue_full = "EWBR",
+      blue_partial = "pEWBR",
+      frost_full = "EWFR",
+      frost_partial = "pEWFR"
+    )
+  ) +
+  scale_size_manual(values = size_vals, guide = "none") +
+  
+  facet_grid(
+    rows = vars(species),
+    scales = "free_y",
+    space = "free_y"
+  ) +
+  
+  scale_x_continuous(breaks = x_breaks) +
+  labs(x = "Year", y = "Sample ID") +
+  theme_bw(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.background = element_blank(),
+    strip.text = element_text(size = 13, face = "bold"),
+    axis.text.y = element_text(size = 7),
+    axis.text.x = element_text(size = 8),
+    legend.position = "right",
+    legend.justification = c(5, 0.5),
+    legend.margin = margin(r = 0, l = -5)
+  )
+
+brfr_plot
+
+##save plot
+ggsave(file.path(figures_dir, "EWBREFWFR_plot.jpg"),
+       brfr_plot, width = 9, height = 10, dpi = 300)
 
 
 
