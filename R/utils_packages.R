@@ -1,5 +1,4 @@
 ## Alnus and Salix shrub anatomical response to climate
-## Author: Georgia Hole
 ## scripts/paths_setup.R
 ## R/utils_packages.R
 
@@ -8,7 +7,7 @@ load_project_packages <- function() {
   
   pkgs <- c(
     # base utilities used directly
-    "utils", "here",
+    "here",
     
     # data handling 
     "dplyr", "tidyr", "readr", "tibble", "stringr", 
