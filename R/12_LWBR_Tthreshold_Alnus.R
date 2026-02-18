@@ -232,7 +232,7 @@ T_star
 
 
 AIC_tbl <- AIC_tbl %>%
-  mutate(deltaAIC = AIC - min(AIC))
+  mutate(deltaAIC = AIC - min(AIC, na.rm = TRUE))
 
 # Candidate support range
 subset(AIC_tbl, deltaAIC <= 2)
