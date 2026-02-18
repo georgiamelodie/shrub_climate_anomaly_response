@@ -533,6 +533,7 @@ tidy_best <- best_coef %>%
 
 tidy_best
 
+#save model coeffs
 write.csv(
   tidy_best,
   file.path(output_dir, "Salix_LWBR_current_model_coeffs.csv"),
@@ -540,6 +541,9 @@ write.csv(
 )
 
 
+
+
+##effect table for manuscript
 effect_table <- tidy_best %>%
   dplyr::filter(term != "(Intercept)") %>%
   dplyr::mutate(
@@ -559,7 +563,7 @@ effect_table <- effect_table %>%
   mutate(`Odds ratio (95% CI)` = gsub("\\.00", "", `Odds ratio (95% CI)`))
 effect_table
 
-
+#save effects table for manuscript
 write.csv(
   effect_table,
   file.path(output_dir, "Salix_LWBR_current_model_OR.csv"),
@@ -685,7 +689,7 @@ if (!"Estimate" %in% names(legacy_coef)) {
   legacy_coef <- legacy_coef %>% dplyr::rename(Estimate = all_of(est_col))
 }
 
-# Confidence intervals for FIXED effects only
+# Confidence intervals for fixed effects only
 legacy_ci <- confint(best_legacy, parm = "beta_", method = "Wald") %>%
   as.data.frame() %>%
   tibble::rownames_to_column("term") %>%
@@ -713,6 +717,7 @@ tidy_legacy <- legacy_coef %>%
 
 tidy_legacy
 
+#save previous year model ceoffs
 write.csv(
   tidy_legacy,
   file.path(output_dir, "Salix_LWBR_prevyear_model_coeffs.csv"),
@@ -723,7 +728,7 @@ write.csv(
 
 
 
-
+#previous year model effects table 
 legacy_effect_table <- tidy_bestlegacy %>%
   # keep fixed effects only
   dplyr::filter(effect == "fixed", term != "(Intercept)") %>%
@@ -755,7 +760,7 @@ legacy_effect_table <- tidy_bestlegacy %>%
 legacy_effect_table
 
 
-
+#save prev year model effects table
 write.csv(
   legacy_effect_table,
   file.path(output_dir, "Salix_LWBR_prevyear_model_OR.csv"),
@@ -871,7 +876,7 @@ ggplot(all_preds_current, aes(x = orig_x, y = fit)) +
     legend.position = "none"
   )
 
-
+#save prediction plot
 ggsave(
   file.path(figures_dir, "Salix_LWBR_current_climate_prediction.png"),
   width = 6,
@@ -934,7 +939,7 @@ ggplot(all_preds_current, aes(x = orig_x, y = fit)) +
     legend.position = "none"
   )
 
-
+#save graphical abstract prediction plot
 ggsave(
   file.path(figures_dir, "graphicalabstract_Salix_LWBR_current_climate_prediction.png"),
   width = 6,
