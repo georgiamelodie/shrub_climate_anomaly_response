@@ -101,7 +101,7 @@ ERA5P_filtered <- ERA5P %>%
   filter(Year >= 1948 & Year <= 2023)
 
 
-# Plot the data with 'time' as the x-axis and 'tas' as the y-axis
+# Plot 
 ggplot(ERA5P_filtered, aes(x = date, y = precip_mm)) +
   geom_line(color = "blue") +
   labs(title = "precip 1973-2023)",
@@ -131,7 +131,7 @@ colnames(precip) <- c("Year", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 head(precip)
 
 
-# convert all month columns to numeric to prevent list-columns
+# convert all month columns to numeric 
 precip <- precip %>%
   mutate(across(-Year, ~as.numeric(.)))
 
@@ -193,7 +193,6 @@ dprecip
 
 
 ##########load or compute detrended alnus and salix chronologies
-
 
 read_crn_any_csv <- function(file, prefer = "vsc") {
   df <- read.csv(file, check.names = FALSE)
@@ -321,7 +320,7 @@ plot_combined_species <- function(combined_df,
                                   y_step = 0.4,
                                   symmetric = FALSE  # set TRUE to force +/- same limit around 0
 ) {
-  # If requested, compute shared y-axis limits across both species
+  # compute shared y-axis limits across both species
   if (unify_y) {
     # Use CI bounds if available; fall back to coef range
     y_min_raw <- if ("ci_lower" %in% names(combined_df)) min(combined_df$ci_lower, na.rm = TRUE) else min(combined_df$coef, na.rm = TRUE)
@@ -381,7 +380,7 @@ combined_df <- bind_rows(alnus_summary, salix_summary) %>%
   mutate(Species = factor(Species, levels = c("Alnus", "Salix")))
 
 
-# Plot (with 0.4 axis)
+# Plot 
 plot_static <- plot_combined_species(combined_df, unify_y = TRUE, y_step = 0.4)
 plot_static
 
@@ -531,7 +530,7 @@ process_moving_dcc <- function(mc, species_name = "Species", label_style = "shor
 #########plots 
 create_moving_species_plot <- function(data,
                                        title = NULL,
-                                       every_n = 2,          # show every n-th window label
+                                       every_n = 2,          # show every nth window label
                                        legend_title = "Significance",
                                        legend_text_size = 8,
                                        legend_title_size = 10,
@@ -661,7 +660,7 @@ summary(scp)
 # Extract summary table from acp
 acp_summary <- summary(acp)
 
-# Add row names as a column (Month info)
+# Add row names as a column (Month)
 acp_summary <- acp_summary %>%
   tibble::rownames_to_column(var = "Variable")
 
@@ -673,7 +672,7 @@ write.csv(acp_summary, file.path(output_dir, "Alnus_static_precipdcc_summary.csv
 # Extract summary table from scp
 scp_summary <- summary(scp)
 
-# Add row names as a column (Month info)
+# Add row names as a column (Month)
 scp_summary <- scp_summary %>%
   tibble::rownames_to_column(var = "Variable")
 
@@ -724,7 +723,7 @@ plot_combined_species <- function(combined_df,
                                   y_step = 0.4,
                                   symmetric = FALSE  # set TRUE to force +/- same limit around 0
 ) {
-  # If requested, compute shared y-axis limits across both species
+  # compute shared y-axis limits across both species
   if (unify_y) {
     # Use CI bounds if available; fall back to coef range
     y_min_raw <- if ("ci_lower" %in% names(combined_df)) min(combined_df$ci_lower, na.rm = TRUE) else min(combined_df$coef, na.rm = TRUE)
@@ -905,7 +904,7 @@ plot_smcp_may <- function(smcp, title = "Salix") {
     )
 }
 
-# Run + save
+# Run and save
 p_smcp <- plot_smcp_may(smcp, title = "Salix")
 print(p_smcp)
 
@@ -1077,7 +1076,6 @@ ggsave(
 
 ##########age cohort split alnus and salix climate-growth relationships
 
-
 #Read data
 al_spline10_trunc <- csv2rwl(fname = file.path(output_dir, "al_spline10_trunc.csv"))
 
@@ -1240,7 +1238,7 @@ common_yrs <- intersect(as.numeric(rownames(alnus_young_crn_88)), al_clim_young_
 alnus_young_crn_88 <- alnus_young_crn_88[as.character(common_yrs), , drop = FALSE]
 al_clim_young_88   <- al_clim_young_88 %>% dplyr::filter(Year %in% common_yrs)
 
-# sanity checks
+#checks
 stopifnot(nrow(alnus_young_crn_88) == nrow(al_clim_young_88))
 stopifnot(all(al_clim_young_88$Year == as.numeric(rownames(alnus_young_crn_88))))
 
@@ -1357,9 +1355,8 @@ ggsave(file.path(figures_dir, "Alnus_agecohortsMCC.png"),
 
 
 
-###
-##################Salix
 
+##################Salix
 
 #Read data
 sa_spline10_trunc <- csv2rwl(fname = file.path(output_dir, "sa_spline10_trunc.csv"))
@@ -1522,7 +1519,7 @@ common_yrs <- intersect(as.numeric(rownames(sa_salix_young_crn_93)), sa_clim_you
 sa_salix_young_crn_93 <- sa_salix_young_crn_93[as.character(common_yrs), , drop = FALSE]
 sa_clim_young_93      <- sa_clim_young_93 %>% dplyr::filter(Year %in% common_yrs)
 
-#sanity checks
+# checks
 stopifnot(nrow(sa_salix_young_crn_93) == nrow(sa_clim_young_93))
 stopifnot(all(sa_clim_young_93$Year == as.numeric(rownames(sa_salix_young_crn_93))))
 
@@ -1606,7 +1603,6 @@ plot_moving_jun_jul_by_age <- function(df, title = NULL, add_trend = TRUE) {
     )
   
   if (add_trend) {
-    # Window is discrete text; use numeric index for LM fit, but keep the same displayed x-axis
     p <- p +
       geom_smooth(
         data = plot_df %>%
