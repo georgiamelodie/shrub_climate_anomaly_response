@@ -8,9 +8,14 @@ load_project_packages()
 
 source(here("R/00_paths_setup.R")) 
 
-data_dir    <- here("data")
-figures_dir <- here("figures")
-output_dir  <- here("output")
+#project data folders
+data_dir        <- here("data")
+anomalies_dir   <- here("data", "anomalies")
+rwi_dir         <- here("data", "rwi")
+meta_dir        <- here("data", "sample_metadata")
+crosswalk_dir   <- here("data", "id_crosswalk")
+climate_dir     <- here("data", "climate_raw")
+derived_dir     <- here("data", "derived")
 
 if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
@@ -18,7 +23,7 @@ if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
 
 #load wood anatomy anomaly data
 raw_salix <- read.csv(
-  file.path(data_dir, "salixBRFRdata.csv"),
+  file.path(anomalies_dir, "salixBRFRdata.csv"),
   check.names = FALSE,
   na.strings = c("", "NA")
 )
@@ -32,7 +37,7 @@ rings_salix <- raw_salix
 
 #load sample latitudes
 lat_df_salix <- read.csv(
-  file.path(data_dir, "ISR_salix_subset_samples.csv")
+  file.path(meta_dir, "ISR_salix_subset_samples.csv")
 )
 
 # #create long dataframe
@@ -140,7 +145,7 @@ yr_dat <- df_long_salix %>%
 
 
 #read daily Tmin
-tmin_path <- file.path(data_dir, "ERA5_tmin_daily.dat")
+tmin_path <- file.path(climate_dir, "ERA5_tmin_daily.dat")
 if (!file.exists(tmin_path)) stop("Missing file: ", tmin_path)
 
 tmin_daily <- read.table(tmin_path, header = FALSE, skip = 24)

@@ -8,25 +8,30 @@ load_project_packages()
 
 source(here("R/00_paths_setup.R")) 
 
-#Define project directories
-data_dir    <- here("data")
-figures_dir <- here("figures")
+#project data folders
+data_dir        <- here("data")
+anomalies_dir   <- here("data", "anomalies")
+rwi_dir         <- here("data", "rwi")
+meta_dir        <- here("data", "sample_metadata")
+crosswalk_dir   <- here("data", "id_crosswalk")
+climate_dir     <- here("data", "climate_raw")
+derived_dir     <- here("data", "derived")
 
 #Create figures folder if needed
 if (!dir.exists(figures_dir)) {
   dir.create(figures_dir)
 }
 
-#Global plot settings
+#global plot settings
 theme_set(theme_minimal(base_size = 13))
 
 
 ###plots of cold degree days CDD and growing degree days GDD for highlight years
 
 ###climate data
-tmin_file <- here("data", "ERA5_tmin_daily.dat")
+tmin_file <- file.path(climate_dir, "ERA5_tmin_daily.dat")
 readLines(tmin_file, n = 25)
-ERA5TM <- read.table(tmin_file, header = FALSE, skip = 22)
+ERA5TM <- read.table(tmin_file, header = FALSE, skip = 24)
 
 #check correct dataframe is made
 head(ERA5TM)
@@ -316,7 +321,7 @@ plot_cdd_highlight_year(
 ###############GDD - Growing Degree Days (days above 5C) plot for highlight year
 
 #Load ERA5 t2m temperature data
-t2m_file <- here("data", "ERA5_t2m_daily.dat")
+t2m_file <- file.path(climate_dir, "ERA5_t2m_daily.dat")
 readLines(t2m_file, n = 25)
 
 ERA5T2M <- read.table(t2m_file, header = FALSE, skip = 22)
@@ -642,7 +647,7 @@ for (yr in highlight_years) {
 #precipitation - using ERA as CRU lacks data for the region
 #read in and convert ERA precip data
 
-precip_file <- here("data", "ERA5_prcp_daily.dat")
+precip_file <- file.path(climate_dir, "ERA5_prcp_daily.dat")
 readLines(precip_file, n = 25)
 ERA5P <- read.table(precip_file, header = FALSE, skip = 22)
 

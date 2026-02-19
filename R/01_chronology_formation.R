@@ -9,17 +9,21 @@ load_project_packages()
 
 source(here("R/00_paths_setup.R")) 
 
-# Project folders (repo root detected by .Rproj / here)
-data_dir    <- here("data")
-figures_dir <- here("figures")
-output_dir  <- here("output")   # optional, for CSV outputs
+#project data folders
+data_dir        <- here("data")
+anomalies_dir   <- here("data", "anomalies")
+rwi_dir         <- here("data", "rwi")
+meta_dir        <- here("data", "sample_metadata")
+crosswalk_dir   <- here("data", "id_crosswalk")
+climate_dir     <- here("data", "climate_raw")
+derived_dir     <- here("data", "derived")
 
 # Create folders if missing (safe on fresh clone)
 if (!dir.exists(figures_dir)) dir.create(figures_dir)
 if (!dir.exists(output_dir))  dir.create(output_dir)
 
 #Read data
-sa_file <- file.path(data_dir, "ISR_salix_RWI.csv")
+sa_file <- file.path(rwi_dir, "ISR_salix_RWI.csv")
 sa <- csv2rwl(fname = sa_file)
 
 
@@ -178,7 +182,7 @@ dev.off()
 # ISR alnus chronology 
 
 #Read data
-al_file <- file.path(data_dir, "ISR_alnus_RWI.csv")
+al_file <- file.path(rwi_dir, "ISR_alnus_RWI.csv")
 al <- csv2rwl(fname = al_file)
 
 

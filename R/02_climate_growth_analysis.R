@@ -8,10 +8,14 @@ load_project_packages()
 
 source(here("R/00_paths_setup.R")) 
 
-# Project dirs
-data_dir    <- here("data")
-output_dir  <- here("output")
-figures_dir <- here("figures")
+#project data folders
+data_dir        <- here("data")
+anomalies_dir   <- here("data", "anomalies")
+rwi_dir         <- here("data", "rwi")
+meta_dir        <- here("data", "sample_metadata")
+crosswalk_dir   <- here("data", "id_crosswalk")
+climate_dir     <- here("data", "climate_raw")
+derived_dir     <- here("data", "derived")
 
 if (!dir.exists(output_dir))  dir.create(output_dir)
 if (!dir.exists(figures_dir)) dir.create(figures_dir)
@@ -22,7 +26,7 @@ if (!dir.exists(figures_dir)) dir.create(figures_dir)
 
 ##########CRU data
 #read in CRU tmp data from dat file
-cru_tmp_file <- file.path(data_dir, "CRU4_tmp.dat")
+cru_tmp_file <- file.path(climate_dir, "CRU4_tmp.dat")
 readLines(cru_tmp_file, n = 29)
 CRUT <- read.table(cru_tmp_file, header = FALSE, skip = 26)
 
@@ -71,7 +75,7 @@ write.csv(dclim, file.path(output_dir, "dclim.csv"), row.names = FALSE)
 ##########ERA precip data
 
 #read in climate from dat file
-era_prcp_file <- file.path(data_dir, "ERA5_prcp_daily.dat")
+era_prcp_file <- file.path(climate_dir, "ERA5_prcp_daily.dat")
 readLines(era_prcp_file, n = 25)
 ERA5P <- read.table(era_prcp_file, header = FALSE, skip = 24)
 

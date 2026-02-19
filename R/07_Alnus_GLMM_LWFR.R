@@ -9,9 +9,14 @@ load_project_packages()
 
 source(here("R/00_paths_setup.R")) 
 
-data_dir    <- here("data")
-figures_dir <- here("figures")
-output_dir  <- here("output")
+#project data folders
+data_dir        <- here("data")
+anomalies_dir   <- here("data", "anomalies")
+rwi_dir         <- here("data", "rwi")
+meta_dir        <- here("data", "sample_metadata")
+crosswalk_dir   <- here("data", "id_crosswalk")
+climate_dir     <- here("data", "climate_raw")
+derived_dir     <- here("data", "derived")
 
 if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
@@ -20,7 +25,7 @@ if (!dir.exists(output_dir))  dir.create(output_dir, recursive = TRUE)
 
 #load wood anatomy anomaly data
 raw <- read.csv(
-  file.path(data_dir, "alnusBRFRdata.csv"),
+  file.path(anomalies_dir, "alnusBRFRdata.csv"),
   check.names = FALSE,
   na.strings = c("", "NA")
 )
@@ -36,7 +41,7 @@ rings <- raw
 
 #load sample latitudes
 lat_df <- read.csv(
-  file.path(data_dir, "ISR_alnus_subset_samples.csv")
+  file.path(meta_dir, "ISR_alnus_subset_samples.csv")
 )
 
 
@@ -188,7 +193,7 @@ prepare_monthly_climate <- function(filepath,
 
 #load climate data 
 clim_t2m <- prepare_monthly_climate(
-  filepath = file.path(data_dir,"ERA5_t2m_daily.dat"),
+  filepath = file.path(climate_dir, "ERA5_t2m_daily.dat"),
   varname  = "t2m",
   value_name = "t2m",
   calc_GDD = TRUE,
@@ -196,7 +201,7 @@ clim_t2m <- prepare_monthly_climate(
 )
 
 clim_tmin <- prepare_monthly_climate(
-  filepath = file.path(data_dir,"ERA5_tmin_daily.dat"),
+  filepath = file.path(climate_dir, "ERA5_tmin_daily.dat"),
   varname  = "tmin",
   value_name = "tmin",
   calc_GDD = TRUE,
@@ -204,7 +209,7 @@ clim_tmin <- prepare_monthly_climate(
 )
 
 clim_precip <- prepare_monthly_climate(
-  filepath = file.path(data_dir,"ERA5_prcp_daily.dat"),
+  filepath = file.path(climate_dir, "ERA5_prcp_daily.dat"),
   varname  = "precip",
   value_name = "precip_mm",
   precip = TRUE
