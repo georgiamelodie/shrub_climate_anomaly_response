@@ -107,6 +107,7 @@ Anatomical anomaly datasets (BRFR) contain newly generated manually identified b
 
 ### Ring width datasets
 Ring Width Index (RWI) data include both previously archived material and newly processed measurements.  
+Partially overlapping RWI data archived at UK Polar Data Centre: https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.
 
 ### Derived
 RWI site-level chronologies derived from sample RWI data.  
@@ -117,14 +118,14 @@ To ensure compatibility with R modelling workflows, shortened analysis identifie
 data/id_crosswalk/
 ~~~
 These crosswalk tables allow full traceability to UK PDC archived identifiers.  
-Sample inventory data archived at UK Polar Data Centre https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.  
+Sample inventory data archived at UK Polar Data Centre:  https://doi.org/10.5285/b0c6fdb0-2bb5-435c-93e2-e309481ceaf1.  
 
 
 ### Climate Data  
 These files are provided in data/climate_raw/ to ensure reproducibility of model outputs and temperature threshold analyses.  
 Original data sources:  
-ERA5: Copernicus Climate Data Store  
-CRU: Climatic Research Unit, University of East Anglia  
+ERA5: Copernicus Climate Data Store.  
+CRU: Climatic Research Unit, University of East Anglia.  
 
 ## License  
 MIT
