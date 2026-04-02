@@ -1,5 +1,5 @@
 # Hole et al. (2026) 
-Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Thermal thresholds constrain lignification and frost injury in Low Arctic shrubs of northwestern Canada. [In prep].
+Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Blue rings reveal cold exposure thresholds limiting wood formation in Low Arctic tundra shrubs. [In prep/review].
 
 Code and data for analysis of taxon-specific thermal limitation of cell wall lignification and frost injury in Low Arctic shrubs.
 
