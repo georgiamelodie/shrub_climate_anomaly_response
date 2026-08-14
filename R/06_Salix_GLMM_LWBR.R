@@ -36,7 +36,7 @@ str(raw)
 # Use raw as "rings" (years as rows, samples as columns)
 rings <- raw
 
-# remove curtailed sample (W326) before processing
+# W326 has degraded inner rings and is excluded from Salix LWBR modelling
 if ("W326" %in% colnames(rings)) {
   rings <- rings %>% dplyr::select(-W326)
 }

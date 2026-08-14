@@ -35,8 +35,7 @@ str(raw_salix)
 rings_salix <- raw_salix
 
 
-# Exclude W326 from LWBR analyses because inner rings
-# cannot be reliably assessed due to degradation
+# W326 has degraded inner rings and is excluded from Salix LWBR modelling
 if ("W326" %in% colnames(rings_salix)) {
   rings_salix <- rings_salix %>%
     dplyr::select(-W326)
