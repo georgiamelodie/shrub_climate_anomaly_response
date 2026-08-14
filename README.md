@@ -24,7 +24,8 @@ shrub_climate_anomaly_response/
 │   10_Salix_GLMM_EWFR.R  
 │   11_GLMM_output_heatmaps.R  
 │   12_LWBR_Tthreshold_Alnus.R  
-│   13_LWBR_Tthreshold_Salix.R  
+│   13_LWBR_Tthreshold_Salix.R
+│   14_LWBR_Tthreshold_taxon_comparison.R
 │   utils_packages.R  
 │  
 ├── data/  
@@ -93,7 +94,8 @@ source(here::here("R/00_paths_setup.R"))
 10_Salix_GLMM_EWFR.R  - Salix earlywood frost ring - climate model  
 11_GLMM_output_heatmaps.R  - heatmap plot of model outputs
 12_LWBR_Tthreshold_Alnus.R - calculate Temp threshold for  Alnus LWBR
-13_LWBR_Tthreshold_Salix.R - calculate Temp threshold for Salix LWBR  
+13_LWBR_Tthreshold_Salix.R - calculate Temp threshold for Salix LWBR
+14_LWBR_Tthreshold_taxon_comparison.R - calculate uncertainty overlap in taxon Temp threshold
 ~~~  
 
 
