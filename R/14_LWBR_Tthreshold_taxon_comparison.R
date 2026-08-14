@@ -55,71 +55,32 @@ stopifnot(!"W326" %in% colnames(rings_salix))
 
 make_annual_LWBR <- function(rings) {
   
-  df_long <- data.frame(
-    Year = integer(),
-    SampleID = character(),
-    raw_value = character(),
-    present = logical(),
-    BLW = integer(),
-    pBLW = integer(),
-    stringsAsFactors = FALSE
-  )
-  
-  for (sample in setdiff(colnames(rings), "year")) {
-    
-    for (i in 1:nrow(rings)) {
-      
-      year <- rings$year[i]
-      value <- rings[i, sample]
-      
-      # ring present if an entry exists
-      pres <- !(is.na(value) || trimws(as.character(value)) == "")
-      
-      value_chr <- if (pres) {
-        trimws(as.character(value))
-      } else {
-        NA_character_
-      }
-      
-      BLW <- as.integer(
-        pres && grepl("\\bBLW\\b", value_chr)
-      )
-      
-      pBLW <- as.integer(
-        pres && grepl("\\bpBLW\\b", value_chr)
-      )
-      
-      df_long <- rbind(
-        df_long,
-        data.frame(
-          Year = year,
-          SampleID = sample,
-          raw_value = value_chr,
-          present = pres,
-          BLW = BLW,
-          pBLW = pBLW,
-          stringsAsFactors = FALSE
-        )
-      )
-    }
-  }
-  
-  df_long <- df_long %>%
-    filter(present) %>%
+  rings %>%
     mutate(
-      tBLW = as.integer((BLW + pBLW) > 0)
+      across(-year, as.character)
     ) %>%
-    filter(Year >= 1950)
-  
-  yr_dat <- df_long %>%
-    group_by(Year) %>%
+    tidyr::pivot_longer(
+      cols = -year,
+      names_to = "SampleID",
+      values_to = "raw_value"
+    ) %>%
+    filter(
+      !is.na(raw_value),
+      trimws(raw_value) != ""
+    ) %>%
+    mutate(
+      raw_value = trimws(raw_value),
+      tBLW = as.integer(
+        grepl("\\b(BLW|pBLW)\\b", raw_value)
+      )
+    ) %>%
+    filter(year >= 1950) %>%
+    group_by(Year = year) %>%
     summarise(
-      k = sum(tBLW, na.rm = TRUE),
+      k = sum(tBLW),
       n = n(),
       .groups = "drop"
     )
-  
-  return(yr_dat)
 }
 
 
@@ -133,83 +94,60 @@ range(yr_alnus$Year)
 range(yr_salix$Year)
 
 
-#load climate data 
 
-tmin_path <- file.path(
-  climate_dir,
-  "ERA5_tmin_daily.dat"
-)
 
-if (!file.exists(tmin_path)) {
-  stop("Missing file: ", tmin_path)
-}
 
-tmin_daily <- read.table(
-  tmin_path,
-  header = FALSE,
-  skip = 24
-)
+#read daily Tmin
+tmin_path <- file.path(climate_dir, "ERA5_tmin_daily.dat")
+if (!file.exists(tmin_path)) stop("Missing file: ", tmin_path)
 
-colnames(tmin_daily) <- c(
-  "date",
-  "tmin"
-)
+tmin_daily <- read.table(tmin_path, header = FALSE, skip = 24)
+colnames(tmin_daily) <- c("date", "tmin")
 
 tmin_daily <- tmin_daily %>%
   mutate(
-    date = as.Date(
-      as.character(date),
-      format = "%Y%m%d"
-    ),
-    Year = year(date),
+    date  = as.Date(as.character(date), format = "%Y%m%d"),
+    Year  = year(date),
     Month = month(date)
   )
 
-
-# August cold exposure:
-# E_aug(T) = sum max(T - Tmin, 0)
+#function: August cold exposure below threshold T
+# E_aug(T) = Σ max(T − Tmin, 0) over August days (degree days)
 make_E_aug <- function(T, dat = tmin_daily) {
-  
   dat %>%
     filter(Month == 8) %>%
     group_by(Year) %>%
     summarise(
-      E_aug = sum(
-        pmax(T - tmin, 0),
-        na.rm = TRUE
-      ),
+      E_aug = sum(pmax(T - tmin, 0), na.rm = TRUE),
       .groups = "drop"
     ) %>%
     mutate(T = T)
 }
 
 
-#Candidate  T threshold ranges 
 
-aug_tmin <- tmin_daily %>%
-  filter(Month == 8)
+###find T range for august
+aug_tmin <- tmin_daily %>% filter(Month == 8)
 
-T_low <- floor(
-  min(aug_tmin$tmin, na.rm = TRUE)
-) - 1
+Tmin_obs <- min(aug_tmin$tmin, na.rm = TRUE)
+Tmax_obs <- max(aug_tmin$tmin, na.rm = TRUE)
 
-T_high <- ceiling(
-  max(aug_tmin$tmin, na.rm = TRUE)
-) + 1
+c(Tmin_obs, Tmax_obs)
 
-Ts <- seq(
-  T_low,
-  T_high,
-  by = 0.5
-)
 
-E_aug_grid <- bind_rows(
-  lapply(
-    Ts,
-    make_E_aug,
-    dat = tmin_daily
-  )
-)
+# Extend observed range by 1 degree C for candidate T* thresholds
+T_low  <- floor(Tmin_obs) - 1
+T_high <- ceiling(Tmax_obs) + 1
+
+T_low
+T_high
+
+
+Ts <- seq(T_low, T_high, by = 0.5)  
+E_aug_grid <- bind_rows(lapply(Ts, make_E_aug, dat = tmin_daily))
+
+# E_aug_grid has: Year, E_aug, T
+dplyr::glimpse(E_aug_grid)
 
 
 # Merge yearly LWBR counts with threshold temps
@@ -400,6 +338,28 @@ get_Tstar <- function(dat, Ts_use) {
 }
 
 
+
+# Observed T* using the same common years and threshold grid
+# used in the paired bootstrap
+Tstar_alnus_compare <- get_Tstar(
+  alnus_compare,
+  Ts_compare
+)
+
+Tstar_salix_compare <- get_Tstar(
+  salix_compare,
+  Ts_compare
+)
+
+Delta_Tstar_observed <-
+  Tstar_salix_compare - Tstar_alnus_compare
+
+Tstar_alnus_compare
+Tstar_salix_compare
+Delta_Tstar_observed
+
+
+
 # resample a sequence of years 
 resample_years <- function(dat, boot_yrs) {
   
@@ -465,6 +425,9 @@ for (b in seq_len(B)) {
 }
 
 
+
+
+
 #summary
 
 boot_results_clean <- boot_results %>%
@@ -477,7 +440,6 @@ boot_results_clean <- boot_results %>%
 
 nrow(boot_results_clean)
 
-
 delta_quantiles <- quantile(
   boot_results_clean$Delta_Tstar,
   probs = c(
@@ -487,6 +449,7 @@ delta_quantiles <- quantile(
     0.90,
     0.975
   ),
+  type = 1,
   na.rm = TRUE
 )
 
@@ -510,10 +473,14 @@ prop_salix_lower <- mean(
 
 
 paired_boot_summary <- data.frame(
-  observed_Tstar_Alnus = Tstar_alnus,
-  observed_Tstar_Salix = Tstar_salix,
+  observed_Tstar_Alnus =
+    Tstar_alnus_compare,
+  
+  observed_Tstar_Salix =
+    Tstar_salix_compare,
+  
   observed_difference =
-    Tstar_salix - Tstar_alnus,
+    Delta_Tstar_observed,
   
   boot_median_difference =
     unname(delta_quantiles["50%"]),
@@ -580,7 +547,7 @@ delta_plot <- ggplot(
     linetype = "dashed"
   ) +
   geom_vline(
-    xintercept = Tstar_salix - Tstar_alnus,
+    xintercept = Delta_Tstar_observed,
     linewidth = 1
   ) +
   labs(
@@ -607,13 +574,3 @@ ggsave(
 
 paired_boot_summary
 
-
-
-quantile(
-  boot_results_clean$Delta_Tstar,
-  c(0.025, 0.10, 0.50, 0.90, 0.975)
-)
-
-mean(boot_results_clean$Delta_Tstar > 0)
-mean(boot_results_clean$Delta_Tstar == 0)
-mean(boot_results_clean$Delta_Tstar < 0)

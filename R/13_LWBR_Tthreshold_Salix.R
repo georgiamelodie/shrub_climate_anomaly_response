@@ -49,7 +49,7 @@ lat_df_salix <- read.csv(
   file.path(meta_dir, "ISR_salix_subset_samples.csv")
 )
 
-lat_df <- lat_df %>% filter(ID != "W326")
+lat_df_salix <- lat_df_salix %>% filter(ID != "W326")
 
 # #create long dataframe
 df_long_salix <- data.frame(
@@ -193,12 +193,13 @@ Tmax_obs <- max(aug_tmin$tmin, na.rm = TRUE)
 c(Tmin_obs, Tmax_obs)
 
 
-#Tmin and max plus and minus 1 for brackets for T* thresholds
-T_low  <- floor(min(aug_tmin$tmin, na.rm=TRUE)) - 1
-T_high <- ceiling(max(aug_tmin$tmin, na.rm=TRUE)) + 1
+# Extend observed range by 1 degree C for candidate T* thresholds
+T_low  <- floor(Tmin_obs) - 1
+T_high <- ceiling(Tmax_obs) + 1
 
 T_low
 T_high
+
 
 
 Ts <- seq(T_low, T_high, by = 0.5)  
