@@ -35,10 +35,22 @@ str(raw_salix)
 rings_salix <- raw_salix
 
 
+# Exclude W326 from LWBR analyses because inner rings
+# cannot be reliably assessed due to degradation
+if ("W326" %in% colnames(rings_salix)) {
+  rings_salix <- rings_salix %>%
+    dplyr::select(-W326)
+}
+
+stopifnot(!"W326" %in% colnames(rings_salix))
+
+
 #load sample latitudes
 lat_df_salix <- read.csv(
   file.path(meta_dir, "ISR_salix_subset_samples.csv")
 )
+
+lat_df <- lat_df %>% filter(ID != "W326")
 
 # #create long dataframe
 df_long_salix <- data.frame(
