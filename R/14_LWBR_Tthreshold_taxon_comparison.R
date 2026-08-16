@@ -165,7 +165,7 @@ salix_thresh <- yr_salix %>%
   )
 
 
-##models to find T*
+#models to find T*
 
 fit_one_T <- function(Tval, dat) {
   
