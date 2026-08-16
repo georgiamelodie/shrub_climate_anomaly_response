@@ -361,7 +361,7 @@ quantile(boot_df$T_hi, c(0.1, 0.5, 0.9), na.rm=TRUE)
 
 
 #constrained bootstrap to dAIC CI central range (10-90%)
-T_rangecentral <- quantile(boot_df$T_best, c(0.1,0.5, 0.9), na.rm = TRUE)
+T_rangecentral <- quantile(boot_df$T_best, c(0.1,0.5, 0.9), type = 1, na.rm = TRUE)
 T_range_df1 <- data.frame(
   quantile = names(T_rangecentral),
   T_best   = as.numeric(T_rangecentral),
@@ -375,7 +375,7 @@ write.csv(
 )
 T_rangecentral
 ###constrained bootstrap to dAIC CI range (2.5-97.5%)
-T_range_full <- quantile(boot_df$T_best, c(0.025, 0.5, 0.975), na.rm = TRUE)
+T_range_full <- quantile(boot_df$T_best, c(0.025, 0.5, 0.975), type = 1, na.rm = TRUE)
 T_range_df2 <- data.frame(
   quantile = names(T_range_full),
   T_best   = as.numeric(T_range_full),

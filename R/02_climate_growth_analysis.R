@@ -428,9 +428,19 @@ plot_dcc_points_ci <- function(smc,
   signif_df <- smc$coef$significant
   
   pivot_coef_data <- function(df, value_name) {
+    
+    df <- as.data.frame(df)
+    
+    df$Month <- rownames(df)
+    rownames(df) <- NULL
+    
     df %>%
-      rownames_to_column(var = "Month") %>%
-      pivot_longer(-Month, names_to = "Window", values_to = value_name)
+      dplyr::relocate(Month) %>%
+      tidyr::pivot_longer(
+        cols = -Month,
+        names_to = "Window",
+        values_to = value_name
+      )
   }
   
   coef_long <- pivot_coef_data(coef_df, "Correlation")
@@ -1428,11 +1438,11 @@ sa_clim_old <- sa_clim_old %>%
 sa_clim_old
 
 
-al_clim_young <- al_clim_young %>%
+sa_clim_young <- sa_clim_young %>%
   dplyr::mutate(Year = as.numeric(Year)) %>%
   dplyr::filter(is.finite(Year))
 
-al_clim_old <- al_clim_old %>%
+sa_clim_old <- sa_clim_old %>%
   dplyr::mutate(Year = as.numeric(Year)) %>%
   dplyr::filter(is.finite(Year))
 
