@@ -1,5 +1,5 @@
 # Hole et al. (2026) 
-Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Blue Rings reveal thermal thresholds of wood formation in Low Arctic tundra shrubs. [In press].
+Hole, G.M., Büntgen, U., Buchwal, A., Rees, W.G., Wheeler, H.C. Blue Rings reveal thermal thresholds of wood formation in Low Arctic tundra shrubs. Scientific Reports [In press].
 
 Code and data for analysis of taxon-specific thermal limitation of cell wall lignification and frost injury in Low Arctic shrubs.
 
